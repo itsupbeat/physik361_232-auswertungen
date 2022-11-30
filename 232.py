@@ -10,7 +10,7 @@ plt.rcParams.update({
 
 
 colors = ['#046865', '#111d41', '#7D4E57', '#647582', '#d13c17', '#046865', '#111d41', '#7D4E57', '#647582', '#d13c17']
-# lin_fit_colors = []
+lin_fit_colors = ['#372248', '#5F3B7D', '#574538', '#7C6250', '#188C65', '#1EAE7E']
 
 
 def errorbar(x, y, x_err, y_err, names, colors, j=1, beschriftung=['', '', ''], filename=f'out.pdf'):
@@ -24,17 +24,17 @@ def errorbar(x, y, x_err, y_err, names, colors, j=1, beschriftung=['', '', ''], 
     :param colors:
     :param j: number of y-value-arrays
     :param beschriftung:
-    :param dateiname:
+    :param filename:
     :return:
     """
     fig, ax = plt.subplots()
     if j > 1:
         for n in range(j):
             print(n)
-            ax.errorbar(x[n], y[n], xerr=x_err[n], yerr=y_err[n], label=names[n], fmt='H', color=colors[n],
+            ax.errorbar(x[n], y[n], xerr=x_err[n], yerr=y_err[n], label=names[n], fmt='H', color=colors[n], ms=3,
                         elinewidth=1, ecolor=colors[n])
     elif j == 1:
-        ax.errorbar(x, y, xerr=x_err, yerr=y_err, label=names, fmt='H', color=colors[0],
+        ax.errorbar(x, y, xerr=x_err, yerr=y_err, label=names, fmt='H', color=colors[0], ms=3,
                     elinewidth=1, ecolor=colors[0])
     # data_range = np.linspace(0, 1500, np.size(x) * 5)
     # y_fit = lin_model(data_range, 0.6, 5)
@@ -152,9 +152,9 @@ def lin_fit_mult(x, y, x_err, y_err, title="", x_name="", y_name="", counter=1, 
         data_range = np.linspace(np.amin(x)-edges, np.amax(x)+edges, np.size(x) * 5)
         y_fit = lin_model(data_range, a, b)
 
-        ax.errorbar(x, y[n], fmt='H', xerr=x_err, yerr=y_err[n], label=names[n], #color=colors[2*n],
+        ax.errorbar(x, y[n], fmt='H', xerr=x_err, yerr=y_err[n], label=names[n], color=colors[2*n],
                     capsize=1, ms=3, elinewidth=1)
-        ax.plot(data_range, y_fit, # color=colors[2*n+1],
+        ax.plot(data_range, y_fit, color=colors[2*n+1],
                 linewidth=1)
 
     ax.set_title(title)
@@ -186,8 +186,8 @@ m_metalle_y = np.array([m_konst, m_plat, m_kohl])
 m_metalle_y_err = np.array([m_konst_err, m_plat_err, m_kohl_err])
 m_metalle_names = [r'Konstantanwiderstand', r'Platinwiderstand', r'Kohleschichtwiderstand']
 
-# lin_fit_mult(m_temp, m_metalle_y, m_temp_err, m_metalle_y_err, r'Temperaturabhängigkeit metallischer Leiter',
-#         r'$T\ [^\circ \textrm{C}]$', r'$R\ [\Omega]$', 3, m_metalle_names, f'm-metalle')#, lin_fit_colors)
+lin_fit_mult(m_temp, m_metalle_y, m_temp_err, m_metalle_y_err, r'Temperaturabhängigkeit metallischer Leiter',
+        r'$T\ [^\circ \textrm{C}]$', r'$R\ [\Omega]$', 3, m_metalle_names, f'232_n-metalle', lin_fit_colors)
 
 m_halbleiter = np.loadtxt(f'232-m-hallbleiter.csv', skiprows=1)
 m_t_invers = m_halbleiter[:, 0]
@@ -195,15 +195,15 @@ m_t_invers_err = m_halbleiter[:, 1]
 m_ln_ntp = m_halbleiter[:, 2]
 m_ln_ntp_err = m_halbleiter[:, 3]
 
-# lin_fit(m_t_invers, m_ln_ntp, m_t_invers_err, m_ln_ntp_err, r'Temperaturabh\"angigkeit des NTP-Widerstands',
-#         r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$', f'n_nichtleiter', colors)
+lin_fit(m_t_invers, m_ln_ntp, m_t_invers_err, m_ln_ntp_err, r'Temperaturabh\"angigkeit des NTP-Widerstands',
+        r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$', f'232_n_nichtleiter', colors)
 
 m_ptc = np.loadtxt(f'232-m-ptc.csv', skiprows=1)
 m_ln_ptc = m_ptc[:, 2]
 m_ln_ptc_err = m_ptc[:, 3]
 
-# errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, [r'PTC-Widerstand'], colors, 1,
-#          [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$'], f'n_ptc')
+errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, [r'PTC-Widerstand'], colors, 1,
+         [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$'], f'232_n_ptc')
 
 ###
 # Aufgabe 232.a
@@ -243,9 +243,9 @@ f_x_err = np.array([f_inf_r_err, f_zwan_r_err, f_funf_r_err])
 f_y = np.array([f_inf_u, f_zwan_u, f_funf_u])
 f_y_err = np.array([f_inf_u_err, f_zwan_u_err, f_funf_u_err])
 
-errorbar(f_x, f_y, f_x_err, f_y_err, [r'$R_\textrm{\tiny{L}}=\infty\ \Omega$', r'$R_\textrm{\tiny{L}}=20\ \Omega$',
-                                      r'$R_\textrm{\tiny{L}}=50\ \Omega$'], colors, j=3,
-         beschriftung=[r'Spannungsabfall bei verschiedenen $R_\textrm{tiny{L}}$', r'$R\ [\Omega]$',
-                       r'$U\ [\textrm{V}]$'], filename=f'f')
+# errorbar(f_x, f_y, f_x_err, f_y_err, [r'$R_\textrm{\tiny{L}}=\infty\ \Omega$', r'$R_\textrm{\tiny{L}}=20\ \Omega$',
+#                                       r'$R_\textrm{\tiny{L}}=50\ \Omega$'], colors, j=3,
+#          beschriftung=[r'Spannungsabfall bei verschiedenen $R_\textrm{tiny{L}}$', r'$R\ [\Omega]$',
+#                        r'$U\ [\textrm{V}]$'], filename=f'232_f')
 
 
