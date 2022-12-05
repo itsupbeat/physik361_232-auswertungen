@@ -212,9 +212,9 @@ errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 
 a_data = np.loadtxt(f'232_a.csv', skiprows=1)
 print(a_data)
 
-# lin_fit(a_data[:, 8], a_data[:, 10], a_data[:, 9], a_data[:, 11],
-#         r'Widerstandsbestimmung durch Spannungs- und Stromabh\"angigkeit', r'$I\ [\textrm{A}]$', r'$U\ [\textrm{V}]$',
-#         f'232_a', colors)
+lin_fit(a_data[:, 8], a_data[:, 10], a_data[:, 9], a_data[:, 11],
+        r'Widerstandsbestimmung durch Spannungs- und Stromabh\"angigkeit', r'$I\ [\textrm{mA}]$', r'$U\ [\textrm{V}]$',
+        f'232_a', colors)
 
 ##
 # Aufgabe 232.f
@@ -243,9 +243,9 @@ f_x_err = np.array([f_inf_r_err, f_zwan_r_err, f_funf_r_err])
 f_y = np.array([f_inf_u, f_zwan_u, f_funf_u])
 f_y_err = np.array([f_inf_u_err, f_zwan_u_err, f_funf_u_err])
 
-# errorbar(f_x, f_y, f_x_err, f_y_err, [r'$R_\textrm{\tiny{L}}=\infty\ \Omega$', r'$R_\textrm{\tiny{L}}=20\ \Omega$',
-#                                       r'$R_\textrm{\tiny{L}}=50\ \Omega$'], colors, j=3,
-#          beschriftung=[r'Spannungsabfall bei verschiedenen $R_\textrm{tiny{L}}$', r'$R\ [\Omega]$',
-#                        r'$U\ [\textrm{V}]$'], filename=f'232_f')
+errorbar(f_x, f_y, f_x_err, f_y_err, [r'$R_\textrm{\tiny{L}}=\infty\ \Omega$', r'$R_\textrm{\tiny{L}}=20\ \Omega$',
+                                      r'$R_\textrm{\tiny{L}}=50\ \Omega$'], colors, j=3,
+         beschriftung=[r'Spannungsabfall bei verschiedenen $R_\textrm{\tiny{L}}$', r'$R\ [\Omega]$',
+                       r'$U\ [\textrm{V}]$'], filename=f'232_f')
 
 
