@@ -186,8 +186,8 @@ m_metalle_y = np.array([m_konst, m_plat, m_kohl])
 m_metalle_y_err = np.array([m_konst_err, m_plat_err, m_kohl_err])
 m_metalle_names = [r'Konstantanwiderstand', r'Platinwiderstand', r'Kohleschichtwiderstand']
 
-lin_fit_mult(m_temp, m_metalle_y, m_temp_err, m_metalle_y_err, r'Temperaturabhängigkeit metallischer Leiter',
-        r'$T\ [^\circ \textrm{C}]$', r'$R\ [\Omega]$', 3, m_metalle_names, f'232_n-metalle', lin_fit_colors)
+# lin_fit_mult(m_temp, m_metalle_y, m_temp_err, m_metalle_y_err, r'Temperaturabhängigkeit metallischer Leiter',
+#         r'$T\ [^\circ \textrm{C}]$', r'$R\ [\Omega]$', 3, m_metalle_names, f'232_n-metalle', lin_fit_colors)
 
 m_halbleiter = np.loadtxt(f'232-m-hallbleiter.csv', skiprows=1)
 m_t_invers = m_halbleiter[:, 0]
@@ -195,15 +195,15 @@ m_t_invers_err = m_halbleiter[:, 1]
 m_ln_ntp = m_halbleiter[:, 2]
 m_ln_ntp_err = m_halbleiter[:, 3]
 
-lin_fit(m_t_invers, m_ln_ntp, m_t_invers_err, m_ln_ntp_err, r'Temperaturabh\"angigkeit des NTP-Widerstands',
-        r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$', f'232_n_nichtleiter', colors)
+# lin_fit(m_t_invers, m_ln_ntp, m_t_invers_err, m_ln_ntp_err, r'Temperaturabh\"angigkeit des NTP-Widerstands',
+#         r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$', f'232_n_nichtleiter', colors)
 
 m_ptc = np.loadtxt(f'232-m-ptc.csv', skiprows=1)
 m_ln_ptc = m_ptc[:, 2]
 m_ln_ptc_err = m_ptc[:, 3]
 
-errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 1,
-         [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$'], f'232_n_ptc')
+# errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 1,
+#          [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$'], f'232_n_ptc')
 
 ###
 # Aufgabe 232.a
@@ -212,9 +212,9 @@ errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 
 a_data = np.loadtxt(f'232_a.csv', skiprows=1)
 print(a_data)
 
-lin_fit(a_data[:, 8], a_data[:, 10], a_data[:, 9], a_data[:, 11],
-        r'Widerstandsbestimmung durch Spannungs- und Stromabh\"angigkeit', r'$I\ [\textrm{mA}]$', r'$U\ [\textrm{V}]$',
-        f'232_a', colors)
+# lin_fit(a_data[:, 8], a_data[:, 10], a_data[:, 9], a_data[:, 11],
+#         r'Widerstandsbestimmung durch Spannungs- und Stromabh\"angigkeit', r'$I\ [\textrm{mA}]$', r'$U\ [\textrm{V}]$',
+#         f'232_a', colors)
 
 ##
 # Aufgabe 232.f
