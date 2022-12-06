@@ -77,6 +77,52 @@ def lin_model(x, a=140, b=0):
     return x * a + b
 
 
+def lin_fit_a(x, y, x_err, y_err, title="", x_name="", y_name="", filename=f"lin-fit", colors=np.zeros(5)):
+    """
+    Function for linear fit
+    :param colors: colors of graph elements
+    :param x: values x axis
+    :param y: values y axis
+    :param x_err: error x axis
+    :param y_err: error y axis
+    :param title: string used as header
+    :param x_name: string used as label for x axis
+    :param y_name: string used as label for y axis
+    :param filename: name your exported file
+    :return:
+    """
+    data = xy_data(x, y, x_err, y_err)
+
+    fit = Fit(data=data, model_function=lin_model)
+    results = fit.do_fit()
+    fit.report()
+
+    a = results['parameter_values']['a']
+    b = results['parameter_values']['b']
+
+    edges = np.ptp(x)*.05
+    data_range = np.linspace(np.amin(x)-edges, np.amax(x)+edges, np.size(x) * 5)
+    y_fit = lin_model(data_range, a, b)
+
+    fig, ax = plt.subplots()
+    ax.errorbar(x, y, fmt='H', xerr=x_err, yerr=y_err, label='Datenpunkte', color=colors[0],
+                capsize=1, ms=3, elinewidth=1)
+    ax.plot(data_range, y_fit, label='Fit', color=colors[1], linewidth=1)
+    ax.plot(data_range, lin_model(data_range, 0.0675, 0), label=r'$R_\textrm{\tiny{X}}$', color=colors[2],
+            linewidth=1)
+
+    ax.grid(True)
+    ax.set_title(title)
+    ax.set_xlabel(x_name)
+    ax.set_ylabel(y_name)
+
+    ax.legend()
+
+    fig.savefig(f'{filename}.pdf')
+
+    plt.show()
+
+
 def lin_fit(x, y, x_err, y_err, title="", x_name="", y_name="", filename=f"lin-fit", colors=np.zeros(5)):
     """
     Function for linear fit
@@ -202,20 +248,19 @@ m_ptc = np.loadtxt(f'232-m-ptc.csv', skiprows=1)
 m_ln_ptc = m_ptc[:, 2]
 m_ln_ptc_err = m_ptc[:, 3]
 
-errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 1,
-         [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$T\ [^\circ \textrm{C}]$', r'$\ln (R)\ [\ ]$'],
-         f'232_n_ptc')
+# errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 1,
+#          [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$T\ [^\circ \textrm{C}]$', r'$\ln (R)\ [\ ]$'],
+#          f'232_n_ptc')
 
 ###
 # Aufgabe 232.a
 ##
 
 a_data = np.loadtxt(f'232_a.csv', skiprows=1)
-print(a_data)
 
-# lin_fit(a_data[:, 8], a_data[:, 10], a_data[:, 9], a_data[:, 11],
-#         r'Widerstandsbestimmung durch Spannungs- und Stromabh\"angigkeit', r'$I\ [\textrm{mA}]$', r'$U\ [\textrm{V}]$',
-#         f'232_a', colors)
+lin_fit_a(a_data[:, 8], a_data[:, 10], a_data[:, 9], a_data[:, 11],
+        r'Widerstandsbestimmung durch Spannungs- und Stromabh\"angigkeit', r'$I\ [\textrm{mA}]$', r'$U\ [\textrm{V}]$',
+        f'232_a', colors)
 
 ##
 # Aufgabe 232.f
@@ -239,14 +284,14 @@ f_funf_r_err = f_funf[:, 5]
 f_funf_u = f_funf[:, 6]
 f_funf_u_err = f_funf[:, 7]
 
-f_x = np.array([f_inf_r, f_zwan_r, f_funf_r])
-f_x_err = np.array([f_inf_r_err, f_zwan_r_err, f_funf_r_err])
-f_y = np.array([f_inf_u, f_zwan_u, f_funf_u])
-f_y_err = np.array([f_inf_u_err, f_zwan_u_err, f_funf_u_err])
+# f_x = np.array([f_inf_r, f_zwan_r, f_funf_r])
+# f_x_err = np.array([f_inf_r_err, f_zwan_r_err, f_funf_r_err])
+# f_y = np.array([f_inf_u, f_zwan_u, f_funf_u])
+# f_y_err = np.array([f_inf_u_err, f_zwan_u_err, f_funf_u_err])
 
-errorbar(f_x, f_y, f_x_err, f_y_err, [r'$R_\textrm{\tiny{L}}=\infty\ \Omega$', r'$R_\textrm{\tiny{L}}=20\ \Omega$',
-                                      r'$R_\textrm{\tiny{L}}=50\ \Omega$'], colors, j=3,
-         beschriftung=[r'Spannungsabfall bei verschiedenen $R_\textrm{\tiny{L}}$', r'$R\ [\Omega]$',
-                       r'$U\ [\textrm{V}]$'], filename=f'232_f')
+# errorbar(f_x, f_y, f_x_err, f_y_err, [r'$R_\textrm{\tiny{L}}=\infty\ \Omega$', r'$R_\textrm{\tiny{L}}=20\ \Omega$',
+#                                       r'$R_\textrm{\tiny{L}}=50\ \Omega$'], colors, j=3,
+#          beschriftung=[r'Spannungsabfall bei verschiedenen $R_\textrm{\tiny{L}}$', r'$R\ [\Omega]$',
+#                        r'$U\ [\textrm{V}]$'], filename=f'232_f')
 
 
