@@ -202,8 +202,9 @@ m_ptc = np.loadtxt(f'232-m-ptc.csv', skiprows=1)
 m_ln_ptc = m_ptc[:, 2]
 m_ln_ptc_err = m_ptc[:, 3]
 
-# errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 1,
-#          [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$1/T\ [1/\textrm{K}]$', r'$\ln (R)\ [\ ]$'], f'232_n_ptc')
+errorbar(m_temp, m_ln_ptc, m_temp_err, m_ln_ptc_err, r'PTC-Widerstand', colors, 1,
+         [r'Temperaturabh\"angigkeit des PTC-Widerstands', r'$T\ [^\circ \textrm{C}]$', r'$\ln (R)\ [\ ]$'],
+         f'232_n_ptc')
 
 ###
 # Aufgabe 232.a
